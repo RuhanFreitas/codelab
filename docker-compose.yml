@@ -31,10 +31,9 @@ services:
         volumes:
             - ./api:/home/node/app
             - /home/node/app/node_modules
-            - /home/node/app/generated
         environment:
             - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-        command: sh -c "npx prisma migrate deploy && npx prisma generate && npm run start:dev"
+        command: sh -c "npx prisma generate && npx prisma migrate dev --name init && npm run start:dev"
         depends_on:
             db:
                 condition: service_healthy
@@ -49,6 +48,11 @@ services:
         volumes:
             - ./web:/home/node/app
             - /home/node/app/node_modules
+        environment:
+            - CHOKIDAR_USEPOLLING=true       
+            - CHOKIDAR_INTERVAL=1000        
+            - WATCHPACK_POLLING=true   
+        command: sh -c "npm run dev -- --host"      
         depends_on:
             - api
 

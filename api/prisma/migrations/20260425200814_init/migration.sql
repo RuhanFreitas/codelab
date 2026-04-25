@@ -26,6 +26,9 @@ CREATE TABLE "_CategoryToProduct" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
+
+-- CreateIndex
 CREATE INDEX "_CategoryToProduct_B_index" ON "_CategoryToProduct"("B");
 
 -- AddForeignKey
